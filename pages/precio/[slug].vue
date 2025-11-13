@@ -1,54 +1,119 @@
 <script setup lang="ts">
 import { resolveCurrencyFromSlug } from '~/utils/currencies'
+import { resolvePriceLocale, getPriceMessages } from '~/utils/i18nPrice'
+import { formatAsOf } from '~/utils/dateFormat'
+import type { PriceLocale } from '~/utils/i18nPrice'
 
 const route = useRoute()
 const config = useRuntimeConfig()
+const headers = useRequestHeaders(['accept-language'])
 
 const slug = route.params.slug as string
 const currency = resolveCurrencyFromSlug(slug)
-if (!currency) throw createError({ statusCode: 404, statusMessage: 'Divisa no encontrada' })
 
-// SSR: llamará al backend cuando lo tengamos; por ahora con fallback
-const { data, error } = await useFetch(() => {
-  const base = 'USD'
-  const target = currency.code
-  return `${config.public.apiBaseUrl}/api/rates?base=${base}&target=${target}`
-}, { server: true })
+if (!currency) {
+  throw createError({ statusCode: 404, statusMessage: 'Divisa no encontrada' })
+}
 
-const rate = computed<number | null>(() =>
-  data.value?.rates?.[currency.code] ?? 987.62 // fallback visual
+// ----- i18n: locale + mensajes ------------------------------------
+
+const queryLang = route.query.lang as string | undefined
+const acceptLanguage = headers['accept-language'] as string | undefined
+
+const locale = ref<PriceLocale>(
+  resolvePriceLocale(queryLang, acceptLanguage)
+)
+
+const messages = computed(() => getPriceMessages(locale.value))
+
+// ----- Fetch de tasas (SSR) ---------------------------------------
+
+type RatesApi = { base: string; asOf: string; rates: Record<string, number> }
+
+const { data, error } = await useAsyncData<RatesApi>(
+  `rates:${currency.code}`,
+  () =>
+    $fetch<RatesApi>(`${config.public.apiBaseUrl}/api/rates`, {
+      method: 'GET',
+      params: { base: 'USD', target: currency.code },
+    }),
+  {
+    server: true,
+    lazy: false,
+  }
+)
+
+// ----- Derivados: tasa, monto, fecha/hora --------------------------
+
+const rate = computed<number | null>(
+  () => data.value?.rates?.[currency.code] ?? null
 )
 
 const amountText = computed(() =>
   rate.value == null
     ? '—'
-    : new Intl.NumberFormat(currency.locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(rate.value)
+    : new Intl.NumberFormat(currency.locale, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(rate.value)
 )
 
-const asOfText = computed(() => {
-  const iso = data.value?.asOf ?? '2025-10-31T17:51:00Z'
-  const d = new Date(iso)
-  const date = d.toLocaleDateString(currency.locale, { year: 'numeric', month: 'long', day: 'numeric' })
-  const time = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
-  return `Tipo de cambio para ${date} a las ${time} UTC`
+const asOf = computed(() =>
+  formatAsOf(data.value?.asOf, currency.locale, locale.value)
+)
+
+const asOfText = computed(() =>
+  messages.value.legend(asOf.value.date, asOf.value.time)
+)
+
+// ----- SEO dinámico ------------------------------------------------
+
+const seoTitle = computed(() =>
+  messages.value.seoTitle(currency.label)
+)
+
+const seoDescription = computed(() =>
+  messages.value.seoDescription(
+    amountText.value,
+    currency.code,
+    asOf.value.date,
+    asOf.value.time
+  )
+)
+
+const canonicalUrl = computed(() => currency.canon)
+
+useSeoMeta({
+  title: () => seoTitle.value,
+  description: () => seoDescription.value,
+  ogTitle: () => seoTitle.value,
+  ogDescription: () => seoDescription.value,
 })
 
-// SEO dinámico
-useSeoMeta({
-  title: `Valor del dólar hoy en ${currency.code}`,
-  description: `1 USD = ${amountText.value} ${currency.code}. ${asOfText.value}`,
-})
 useHead({
   link: [
-    { rel: 'canonical', href: currency.canon },
-    { rel: 'alternate', hreflang: 'es-CL', href: currency.canon },
+    { rel: 'canonical', href: canonicalUrl.value },
+    { rel: 'alternate', hreflang: 'es-CL', href: canonicalUrl.value },
   ],
 })
 </script>
 
 <template>
   <div>
-    <HeroExchange :amount-text="amountText" :currency-code="currency.code" :as-of-text="asOfText" />
+    <HeroExchange
+      :headline="messages.headline"
+      :amount-text="amountText"
+      :currency-code="currency.code"
+      :as-of-text="asOfText"
+    />
+
+    <div
+      v-if="error"
+      class="mx-auto max-w-[1440px] px-4 lg:px-8 text-sm text-white/80 mt-2"
+    >
+      {{ messages.error }}
+    </div>
+
     <PayLikeLocal />
   </div>
 </template>

@@ -1,75 +1,33 @@
-# Nuxt Minimal Starter
+# 🌐 Global66 – Landing Page
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Landing page de **Global66** desarrollada con **Nuxt 3 + TypeScript + TailwindCSS**, inspirada en el diseño original de Figma.  
+Incluye las secciones **Header**, **Hero (Valor del Dólar)** y **Pay Like Local**, completamente responsive y fiel al diseño visual.
 
-## Setup
+---
 
-Make sure to install dependencies:
+## 🧠 Tecnologías principales
+
+![Nuxt](https://img.shields.io/badge/Nuxt-3-00DC82?style=for-the-badge&logo=nuxtdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+
+---
+
+## ⚙️ Instalación
+
+Clona el repositorio y entra al proyecto:
 
 ```bash
-# npm
+git clone https://github.com/<tu-usuario>/<nombre-repo>.git
+cd frontend
+Instala las dependencias:
+# con npm
 npm install
 
-# pnpm
-pnpm install
+Entorno de desarrollo
 
-# yarn
-yarn install
+Ejecuta el servidor local en http://localhost:3000
+:
 
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
