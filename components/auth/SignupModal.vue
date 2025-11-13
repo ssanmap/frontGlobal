@@ -16,7 +16,6 @@ async function submit() {
   try {
     await post('/api/subscribe', { name: name.value, email: email.value })
     success.value = true
-    // Limpia y cierra después de un pequeño delay
     setTimeout(() => { open.value = false; name.value=''; email.value=''; success.value=false }, 1000)
   } catch (e: any) {
     error.value = e?.data?.message || 'Ocurrió un error al crear la cuenta.'

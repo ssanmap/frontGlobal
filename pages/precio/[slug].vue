@@ -7,26 +7,21 @@ import type { PriceLocale } from '~/utils/i18nPrice'
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['accept-language'])
-
+const url = useRequestURL() 
 const slug = route.params.slug as string
 const currency = resolveCurrencyFromSlug(slug)
 
 if (!currency) {
   throw createError({ statusCode: 404, statusMessage: 'Divisa no encontrada' })
 }
-
 // ----- i18n: locale + mensajes ------------------------------------
-
 const queryLang = route.query.lang as string | undefined
 const acceptLanguage = headers['accept-language'] as string | undefined
 
 const locale = ref<PriceLocale>(
   resolvePriceLocale(queryLang, acceptLanguage)
 )
-
 const messages = computed(() => getPriceMessages(locale.value))
-
-// ----- Fetch de tasas (SSR) ---------------------------------------
 
 type RatesApi = { base: string; asOf: string; rates: Record<string, number> }
 
@@ -42,9 +37,7 @@ const { data, error } = await useAsyncData<RatesApi>(
     lazy: false,
   }
 )
-
 // ----- Derivados: tasa, monto, fecha/hora --------------------------
-
 const rate = computed<number | null>(
   () => data.value?.rates?.[currency.code] ?? null
 )
@@ -81,7 +74,7 @@ const seoDescription = computed(() =>
   )
 )
 
-const canonicalUrl = computed(() => currency.canon)
+const canonicalUrl = computed(() => `${url.origin}${route.fullPath}`)
 
 useSeoMeta({
   title: () => seoTitle.value,
@@ -93,7 +86,7 @@ useSeoMeta({
 useHead({
   link: [
     { rel: 'canonical', href: canonicalUrl.value },
-    { rel: 'alternate', hreflang: 'es-CL', href: canonicalUrl.value },
+    { rel: 'alternate', hreflang: 'es-cl', href: canonicalUrl.value },
   ],
 })
 </script>

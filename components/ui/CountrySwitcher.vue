@@ -5,7 +5,6 @@ import { onClickOutside } from '@vueuse/core'
 const route = useRoute()
 const router = useRouter()
 
-// divisa desde /precio/[slug] (fallback CLP)
 const currentCode = computed<CurrencyCode>(() => {
   const slug = (route.params.slug as string) ?? 'peso-chileno'
   return resolveCurrencyFromSlug(slug)?.code ?? 'CLP'
@@ -32,7 +31,6 @@ async function select(code: CurrencyCode) {
 
 <template>
   <div class="relative">
-    <!-- Botón: solo bandera -->
     <button
       type="button"
       class="inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
@@ -48,7 +46,6 @@ async function select(code: CurrencyCode) {
       </svg>
     </button>
 
-    <!-- Dropdown -->
     <div
       v-if="open"
       ref="popoverRef"

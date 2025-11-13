@@ -13,6 +13,13 @@ export default defineNuxtConfig({
       gaId: process.env.NUXT_PUBLIC_GA_ID || ''
     },
   },
+    routeRules: {
+    '/**': {
+      headers: {
+        'x-robots-tag': 'index, follow',
+      },
+    },
+  },
 
   app: {
     head: {
