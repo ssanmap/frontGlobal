@@ -29,11 +29,11 @@ async function submit() {
   <Modal v-model="open" title="Crear cuenta">
     <form @submit.prevent="submit" class="space-y-4">
       <div>
-        <label class="text-sm font-medium text-slate-700">Nombre</label>
+        <label class="text-sm font-medium text-slate-900">Nombre</label>
         <input v-model="name" type="text" class="mt-1 w-full rounded-lg border px-3 py-2 outline-none ring-brand/20 focus:ring-2" />
       </div>
       <div>
-        <label class="text-sm font-medium text-slate-700">Email</label>
+        <label class="text-sm font-medium text-slate-900">Email</label>
         <input v-model="email" type="email" class="mt-1 w-full rounded-lg border px-3 py-2 outline-none ring-brand/20 focus:ring-2" />
       </div>
 

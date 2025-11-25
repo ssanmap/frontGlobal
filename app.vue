@@ -9,7 +9,7 @@ if (process.client && config.public.gaId) {
     script: [
       {
         src: `https://www.googletagmanager.com/gtag/js?id=${config.public.gaId}`,
-        async: true
+        defer: true
       },
       {
         // Inicializa dataLayer + gtag y configura tu GA4
@@ -18,7 +18,8 @@ if (process.client && config.public.gaId) {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', '${config.public.gaId}');
-        `
+        `,
+        defer: true
       }
     ]
   })

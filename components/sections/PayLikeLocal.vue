@@ -14,16 +14,16 @@ import bannerImg from '/assets/banner-img.png'
             <p class="mt-2 text-[40px] leading-[1.1] font-extrabold text-[#2557D6]">
               Paga como local
             </p>
-            <p class="mt-5 text-[22px] leading-snug text-[#6D5D5D] max-w-md">
+            <p class="mt-5 text-[22px] leading-snug text-[#4A4A4A] max-w-md">
               Tu cuenta global para pagar, convertir, enviar dinero y más.
             </p>
 
             <div class="mt-6 flex items-center gap-4">
               <a href="#" class="transition hover:opacity-80">
-                <img :src="playstore" alt="Google Play" class="h-12 w-auto" />
+                <img :src="playstore" alt="Google Play" width="135" height="48" class="h-12 w-auto" loading="lazy" />
               </a>
               <a href="#" class="transition hover:opacity-80">
-                <img :src="appstore" alt="App Store" class="h-12 w-auto" />
+                <img :src="appstore" alt="App Store" width="135" height="48" class="h-12 w-auto" loading="lazy" />
               </a>
             </div>
           </div>
@@ -36,7 +36,10 @@ import bannerImg from '/assets/banner-img.png'
             <img
               :src="bannerImg"
               alt="App Global66"
+              width="688"
+              height="700"
               class="absolute right-[-40px] top-1/2 -translate-y-1/2 w-[688px] h-auto select-none drop-shadow-2xl"
+              loading="lazy"
             />
           </div>
         </div>

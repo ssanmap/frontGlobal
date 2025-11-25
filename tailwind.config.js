@@ -7,7 +7,7 @@ export default {
         'g66-blue': '#2557D6',   // header bg
         'g66-green': '#20C997',  // chip PERSONAS
         'g66-navy': '#0B3B2E',   // texto dark en chip
-        'g66-muted': '#6B7280',  // textos secundarios
+        'g66-muted': '#4A4A4A',  // textos secundarios (darkened for contrast)
         'g66-panel': '#F8F9FB',  // panel gris de la sección
       },
       spacing: {

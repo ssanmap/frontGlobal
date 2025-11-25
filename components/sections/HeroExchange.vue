@@ -54,22 +54,31 @@ onMounted(() => {
             <img
               src="/assets/clp.svg"
               alt="Bandera de Chile"
+              width="201"
+              height="201"
               class="w-[160px] md:w-[201px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,.25)]"
+              loading="eager"
               decoding="async"
             />
 
             <img
               src="/assets/arrow.svg"
               alt=""
+              width="93"
+              height="16"
               class="absolute top-[-60px] left-1/2 -translate-x-1/2 w-[70px] md:w-[93px] h-auto"
               aria-hidden="true"
+              loading="eager"
               decoding="async"
             />
 
             <img
               src="/assets/usd.svg"
               alt="Bandera de Estados Unidos"
+              width="201"
+              height="201"
               class="w-[160px] md:w-[201px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,.25)]"
+              loading="eager"
               decoding="async"
             />
           </div>
@@ -78,6 +87,8 @@ onMounted(() => {
             <img
               src="/assets/stand.svg"
               alt=""
+              width="556"
+              height="356"
               class="h-full w-full object-contain"
               loading="lazy"
               decoding="async"

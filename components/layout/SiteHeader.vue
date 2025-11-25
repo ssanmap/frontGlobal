@@ -8,7 +8,7 @@ const signupOpen = useState('signupOpen', () => false)
       <nav class="flex items-center justify-between py-4 h-16 lg:h-[181px] " role="navigation" aria-label="Principal">
         <div class="flex items-center gap-8">
           <NuxtLink to="/" class="flex items-center gap-2" aria-label="Global66">
-            <img src="/assets/logo-global.png" alt="Global66" class="h-8 w-auto" />
+            <img src="/assets/logo-global.png" alt="Global66" width="128" height="32" class="h-8 w-auto" />
           </NuxtLink>
 
           <!-- Tabs -->

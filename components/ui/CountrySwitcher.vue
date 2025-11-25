@@ -65,7 +65,7 @@ async function select(code: CurrencyCode) {
           >
             <FlagIcon :code="opt.code" class="h-4 w-6 rounded-[2px] ring-1 ring-slate-300" />
             <span class="grow text-left">{{ opt.label }}</span>
-            <span class="text-xs text-slate-500">{{ opt.code }}</span>
+            <span class="text-xs text-slate-600">{{ opt.code }}</span>
           </button>
         </li>
       </ul>
